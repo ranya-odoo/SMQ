@@ -1,0 +1,114 @@
+<odoo>
+    <!-- Form View -->
+    <record id="view_action_model_form" model="ir.ui.view">
+        <field name="name">action.form</field>
+        <field name="model">action</field>
+        <field name="arch" type="xml">
+            <form string="Action">
+                <sheet>
+                    <group col="2">
+                        <!-- Colonne 1 -->
+                        <group>
+                            <field name="name"/>
+                            <field name="numero_sequentiel" readonly="1"/>
+                            <field name="designation"/>
+                            <field name="description"/>
+                            <field name="type_action"/>
+                            <field name="source_action"/>
+                        </group>
+
+                        <!-- Colonne 2 -->
+                        <group>
+                            <field name="cause_action"/>
+                            <field name="gravite_action"/>
+                            <field name="priorite_action"/>
+                            <field name="site"/>
+                            <field name="responsable_validation"/>
+                        </group>
+                    </group>
+
+                    <!-- Notebook for Sous-actions -->
+                    <notebook>
+                        <page string="Sous-actions">
+                            <group>
+                                <field name="numero_sequentiel"/>
+                                <field name="responsable_realisation"/>
+                                <field name="delai_realisation"/>
+                                <field name="responsable_suivi"/>
+                                <field name="delai_suivi"/>
+                                <field name="gravite"/>
+                                <field name="priorite"/>
+                                <field name="piece_jointe"/>
+
+
+                            </group>
+                        </page>
+                        <page string="Les taux">
+                            <group>
+                                <field name="taux_realisation"/>
+                                <field name="depenses"/>
+                                <field name="commentaire"/>
+                            </group>
+                        </page>
+
+                    
+                        <!-- Notebook for Clôtures -->
+
+                        <page string="Clôtures">
+                            <group>
+                                <field name="responsible_id"/>
+                                <field name="closure_deadline"/>
+                                <field name="action_effectiveness"/>
+                                <field name="closure_attachment"/>
+                                <field name="closure_comment"/>
+                            </group>
+                        </page>
+                        <page string="Notifications et états">
+                            <group>
+                                <field name="state"/>
+                                <field name="alert_responsible"/>
+                                <field name="modification_history_ids"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_action_model_tree" model="ir.ui.view">
+        <field name="name">action.tree</field>
+        <field name="model">action</field>
+        <field name="arch" type="xml">
+            <tree string="Action List">
+                <field name="name"/>
+                <field name="numero_sequentiel"/>
+                <field name="designation"/>
+                <field name="type_action"/>
+                <field name="source_action"/>
+                <field name="gravite_action"/>
+                <field name="priorite_action"/>
+                <field name="responsable_validation"/>
+                <field name="site"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action for the View -->
+    <record id="action_action_model" model="ir.actions.act_window">
+        <field name="name">Actions</field>
+        <field name="res_model">action</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre première action ici.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_action_root" name="Action" sequence="10"/>
+    <menuitem id="menu_action_model" name="Actions" parent="menu_action_root" action="action_action_model"
+              sequence="10"/>
+</odoo>

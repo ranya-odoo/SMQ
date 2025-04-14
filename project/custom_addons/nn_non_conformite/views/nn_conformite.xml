@@ -1,0 +1,79 @@
+<odoo>
+    <!-- Vue formulaire pour la Fiche Non-Conformité -->
+    <record id="view_non_conformite_form" model="ir.ui.view">
+        <field name="name">non.conformite.form</field>
+        <field name="model">non.conformite</field>
+        <field name="arch" type="xml">
+            <form string="Fiche Non-Conformité">
+                <header>
+                    <!-- Ajout du widget statusbar avec les couleurs -->
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,analyse,prise_en_charge,en_cours,cloturee,annule"
+                           options="{'colors': {'draft': 'blue', 'analyse': 'yellow', 'prise_en_charge': 'orange', 'en_cours': 'green', 'cloturee': 'grey', 'annule': 'red'}}"/>
+                    <button name="action_analyse" type="object" string="Passer à Analyse" class="btn-info"/>
+                    <button name="action_prise_en_charge" type="object" string="Prise en charge" class="btn-secondary"/>
+                    <button name="action_en_cours" type="object" string="En cours" class="btn-primary"/>
+                    <button name="action_cloturee" type="object" string="Clôturer" class="btn-success"/>
+                    <button name="action_annule" type="object" string="Annuler" class="btn-danger"/>
+                    <button name="action_remettre_brouillon" type="object" string="Remettre en brouillon"
+                            class="btn-warning"/>
+                </header>
+                <sheet>
+                    <group>
+                        <!-- Identifiant de la non-conformité -->
+                        <field name="code"/>
+
+                        <!-- Description de la non-conformité -->
+
+                        <field name="description" string="Description de la Non-Conformité" required="1"/>
+                        <field name="date_detection"/>
+                        <field name="designation_produit"/>
+                        <field name="produit_non_conforme_id"/>
+                        <field name="personnes_a_notifier_ids" widget="many2many_tags"/>
+                        <field name="type_non_conformite"/>
+                        <field name="source_non_conformite"/>
+                        <field name="niveau_gravite"/>
+                        <field name="piece_jointe" filename="piece_jointe_filename"/>
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue tree (liste) -->
+    <record id="view_non_conformite_tree" model="ir.ui.view">
+        <field name="name">non.conformite.tree</field>
+        <field name="model">non.conformite</field>
+        <field name="arch" type="xml">
+            <tree string="Non-Conformités"
+                  decoration-info="state == 'draft'"
+                  decoration-success="state == 'analyse'"
+                  decoration-warning="state == 'prise_en_charge'"
+                  decoration-primary="state == 'en_cours'"
+                  decoration-danger="state == 'cloturee'"
+                  decoration-muted="state == 'annule'">
+                <field name="code"/>
+                <field name="description"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action pour ouvrir les fiches de non-conformité -->
+    <record id="non_conformite_action" model="ir.actions.act_window">
+        <field name="name">Fiches Non-Conformité</field>
+        <field name="res_model">non.conformite</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu racine -->
+    <menuitem id="menu_non_conformite_root" name="Non-Conformité" sequence="10"/>
+
+    <!-- Menu enfant lié à l'action -->
+    <menuitem id="menu_non_conformite"
+              name="Gestion des Non-Conformités"
+              parent="menu_non_conformite_root"
+              action="non_conformite_action"
+              sequence="10"/>
+</odoo>
